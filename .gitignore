@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+
 /.pnp
 .pnp.js
 
@@ -23,7 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 ### VisualStudioCode ###
-.vscode/*      
+
 .vscode/settings.json
 .vscode/tasks.json
 .vscode/launch.json
@@ -32,3 +33,4 @@ yarn-error.log*
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 **/.history
+
