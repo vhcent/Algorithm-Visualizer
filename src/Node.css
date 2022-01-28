@@ -1,0 +1,8 @@
+.node {
+    width: calc(118vw / 59);
+    height: calc(120vh / 29);
+    border: 1px solid black;
+    display: inline-block;
+    background-color: rgb(231, 231, 231);
+  }
+  
