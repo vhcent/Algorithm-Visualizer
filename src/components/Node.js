@@ -11,3 +11,4 @@ export default class Node extends Component {
         return <div className="node"></div>
     }
 }
+
