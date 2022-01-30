@@ -18,10 +18,23 @@ export default class App extends React.Component {
         for (let row = 0; row < 18; row++) {
             const currentRow = [];
             for (let column = 0; column < 50; column++) {
-                currentRow.push([]);
+                const currentNode = {
+                    column, 
+                    row, 
+                    isStart: row == 10 && column == 10, 
+                    isFinish: row == 10 && column == 40,
+                    distance: Infinity,
+                    isVisited: false,
+                    isWall: false,
+                };
+                currentRow.push(currentNode);
             }
             nodes.push(currentRow);
         }
+        // for(var i = 0; i < nodes.length; i++) {
+        //     console.log("node: " + nodes[i].print());
+        // }
+        // console.log("NODES: " + nodes);
         this.setState({ nodes: nodes });
     }
 
@@ -122,14 +135,32 @@ export default class App extends React.Component {
                         {grid.map((row, rowIndex) => {
                             return (
                                 <div class="row">
-                                    {row.map((node, nodeIndex) => (
-                                        <Node></Node>
-                                    ))}
+                                    {row.map((node, nodeIndex) => {
+                                        const {isFinish, isStart} = node;
+                                        return (
+                                        <Node
+                                        key={nodeIndex}
+                                        isFinish={isFinish}
+                                        isStart={isStart}>
+                                        </Node>
+                                        )
+                                    })}
                                 </div>
                             );
                         })}
                     </div>
                 </div>
         );
+    }
+}
+
+const createNode = (column, row) => {
+    return {
+        column,
+        row,
+        isStart: row === 10 && column === 10,
+        isFinish: row === 10 && column === 30,
+        isWall: false,
+        
     }
 }

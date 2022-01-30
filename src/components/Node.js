@@ -8,7 +8,19 @@ export default class Node extends Component {
     }
 
     render() {
-        return <div className="node"></div>
+        const {isStart, isFinish, isWall} = this.props;
+        var extraClassName='';
+        if (isStart) {
+            extraClassName='start';
+            console.log("IS START WAS TRUE");
+        }
+        else if (isFinish) {
+            extraClassName='finish';
+        }
+        else {
+            extraClassName='';
+        }
+        return <div className={`node ${extraClassName}`}></div>
     }
 }
 

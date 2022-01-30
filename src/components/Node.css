@@ -4,4 +4,22 @@
     border: 1px solid black;
     display: inline-block;
     background-color: rgba(231, 231, 231, 0.849);
+    transition-duration: 0.6s;
   }
+
+.node:hover {
+    /* background-color: rgba(158, 158, 158, 0.849); */
+    opacity: 60%;
+    width: calc(118vw / 59);
+    height: calc(120vh / 29);
+}
+
+.start {
+  background-color: lightgreen;
+  border-radius: 10px;
+}
+
+.finish {
+  background-color: lightcoral;
+  border-radius: 10px;
+}
