@@ -8,7 +8,7 @@ export default class Node extends Component {
     }
 
     render() {
-        const {isStart, isFinish, isWall} = this.props;
+        const {row, column, isStart, isFinish, isWall} = this.props;
         var extraClassName='';
         if (isStart) {
             extraClassName='start';
@@ -20,7 +20,7 @@ export default class Node extends Component {
         else {
             extraClassName='';
         }
-        return <div className={`node ${extraClassName}`}></div>
+        return <div id={`node ${row} ${column}`} className={`node ${extraClassName}`}></div>
     }
 }
 

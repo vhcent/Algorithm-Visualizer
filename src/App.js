@@ -5,6 +5,9 @@ import "./App.css";
 //components
 import Node from "./components/Node";
 
+//algorithms
+import {dijkstra, getShortestPath} from "./algorithms/dijkstra"
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -26,6 +29,7 @@ export default class App extends React.Component {
                     distance: Infinity,
                     isVisited: false,
                     isWall: false,
+                    previousNode: null
                 };
                 currentRow.push(currentNode);
             }
@@ -36,6 +40,31 @@ export default class App extends React.Component {
         // }
         // console.log("NODES: " + nodes);
         this.setState({ nodes: nodes });
+    }
+
+    visualizeDijkstra() {
+        /////remove later
+        const {grid} = this.state.nodes
+        const start = grid[10][10];
+        const finish = grid[10][40];
+        ///
+        visualizeSearch(dijkstra(grid, start, finish));
+        this.visualizeShortestPath(getShortestPath(finish));
+    }
+
+    visualizeSearch(visualization) {
+        for (let i = 0; i < visualization.length; i++) {
+            setTimeout(() => {
+                const node = visualization[i];
+                visualization[i].setVisited();
+                
+            }, i * 100);
+            
+        }
+    }
+
+    visualizeShortestPath() {
+        
     }
 
     render() {
@@ -136,12 +165,14 @@ export default class App extends React.Component {
                             return (
                                 <div class="row">
                                     {row.map((node, nodeIndex) => {
-                                        const {isFinish, isStart} = node;
+                                        const {row, column, isFinish, isStart} = node;
                                         return (
                                         <Node
                                         key={nodeIndex}
                                         isFinish={isFinish}
                                         isStart={isStart}>
+                                        row = {rowIndex};
+                                        col = {nodeIndex};
                                         </Node>
                                         )
                                     })}
@@ -154,13 +185,13 @@ export default class App extends React.Component {
     }
 }
 
-const createNode = (column, row) => {
-    return {
-        column,
-        row,
-        isStart: row === 10 && column === 10,
-        isFinish: row === 10 && column === 30,
-        isWall: false,
+// const createNode = (column, row) => {
+//     return {
+//         column,
+//         row,
+//         isStart: row === 10 && column === 10,
+//         isFinish: row === 10 && column === 30,
+//         isWall: false,
         
-    }
-}
+//     }
+// }

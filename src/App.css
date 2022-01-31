@@ -43,6 +43,7 @@ html {
     font-size: 2.5vw;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: white;
+    user-select: none;
   }
   
   .title:hover {

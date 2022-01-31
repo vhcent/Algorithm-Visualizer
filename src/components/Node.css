@@ -23,3 +23,11 @@
   background-color: lightcoral;
   border-radius: 10px;
 }
+
+.visited {
+  background-color: aqua;
+}
+
+.shortestPath {
+  background-color: yellow;
+}
