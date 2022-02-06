@@ -44,27 +44,28 @@ export default class App extends React.Component {
 
     visualizeDijkstra() {
         /////remove later
-        const {grid} = this.state.nodes
+        const grid = this.state.nodes
         const start = grid[10][10];
         const finish = grid[10][40];
         ///
-        visualizeSearch(dijkstra(grid, start, finish));
+        this.visualizeSearch(dijkstra(grid, start, finish));
         this.visualizeShortestPath(getShortestPath(finish));
     }
 
     visualizeSearch(visualization) {
+        console.log(visualization);
         for (let i = 0; i < visualization.length; i++) {
             setTimeout(() => {
                 const node = visualization[i];
                 visualization[i].setVisited();
-                
-            }, i * 100);
+                console.log("iterated");
+            }, 1);
             
         }
     }
 
-    visualizeShortestPath() {
-        
+    visualizeShortestPath(shortestPath) {
+        console.log(shortestPath);
     }
 
     render() {
@@ -81,7 +82,7 @@ export default class App extends React.Component {
                         <div className="dropdown-content">
                             <button
                                 className="dropdown-button"
-                                onClick={() => {}}
+                                onClick={() => this.visualizeDijkstra()}
                             >
                                 Dijkstra's
                             </button>
@@ -172,7 +173,7 @@ export default class App extends React.Component {
                                         isFinish={isFinish}
                                         isStart={isStart}>
                                         row = {rowIndex};
-                                        col = {nodeIndex};
+                                        column = {nodeIndex};
                                         </Node>
                                         )
                                     })}
