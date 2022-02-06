@@ -43,7 +43,7 @@ function getNeighbors(currentNode, grid) {
     const row = currentNode.row;
 
     if(row < grid.length-1) {
-        console.log(grid[row][column]);
+        // console.log(grid[row][column]);
         if(grid[row+1][column].isVisited === false) neighbors.push(grid[row+1][column]);
     }
     if(row > 0) {
@@ -56,13 +56,13 @@ function getNeighbors(currentNode, grid) {
     if(column < grid[0].length - 1) {
         if(grid[row][column+1].isVisited === false) neighbors.push(grid[row][column+1]);
     }
-    console.log("neighbors : " + neighbors);
+    // console.log("neighbors : " + neighbors);
 
     for (let neighbor of neighbors) {
-        console.log("loop thru neighbors");
+        // console.log("loop thru neighbors");
         neighbor.distance = currentNode.distance + 1;
         neighbor.previousNode = currentNode;
-        console.log("prev node: " + neighbor.previousNode + " \n");
+        // console.log("prev node: " + neighbor.previousNode + " \n");
     }
 }
 

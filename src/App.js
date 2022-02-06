@@ -7,13 +7,16 @@ import Node from "./components/Node";
 
 //algorithms
 import {dijkstra, getShortestPath} from "./algorithms/dijkstra"
+import { wait } from "@testing-library/user-event/dist/utils";
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             nodes: [],
+            visited: [],
         };
+        console.log("includes: " + this.state.visited.indexOf([11, 11]));
     }
 
     componentDidMount() {
@@ -24,7 +27,7 @@ export default class App extends React.Component {
                 const currentNode = {
                     column, 
                     row, 
-                    isStart: row == 10 && column == 10, 
+                    isStart: row == 5 && column == 10, 
                     isFinish: row == 10 && column == 40,
                     distance: Infinity,
                     isVisited: false,
@@ -43,29 +46,41 @@ export default class App extends React.Component {
     }
 
     visualizeDijkstra() {
-        /////remove later
         const grid = this.state.nodes
-        const start = grid[10][10];
+        const start = grid[5][10];
         const finish = grid[10][40];
-        ///
         this.visualizeSearch(dijkstra(grid, start, finish));
-        this.visualizeShortestPath(getShortestPath(finish));
+        console.log("Visited: " + this.state.visited);
+        // this.visualizeShortestPath(getShortestPath(finish));
     }
 
-    visualizeSearch(visualization) {
-        console.log(visualization);
-        for (let i = 0; i < visualization.length; i++) {
+    visualizeSearch(visitedNodesInOrder) {
+        const grid = this.state.nodes
+        const finish = grid[10][40];
+        console.log(visitedNodesInOrder);
+        for (let i = 0; i < visitedNodesInOrder.length; i++) {
             setTimeout(() => {
-                const node = visualization[i];
-                visualization[i].setVisited();
-                console.log("iterated");
-            }, 1);
-            
-        }
+                const node = visitedNodesInOrder[i];
+                console.log("HI");
+                if(i === visitedNodesInOrder.length - 1) this.visualizeShortestPath(getShortestPath(finish));
+                if(i !== 0 && i !== visitedNodesInOrder.length - 1) {
+                document.getElementById(`node-${node.row}-${node.column}`).className ='node node-visited';
+                }
+            }, i * 10);
+        }  
     }
 
     visualizeShortestPath(shortestPath) {
         console.log(shortestPath);
+        for (let i = 0; i < shortestPath.length; i++) {
+            setTimeout(() => {
+                const node = shortestPath[i];
+                
+                if(i !== 0 && i !== shortestPath.length - 1) {
+                    document.getElementById(`node-${node.row}-${node.column}`).className ='node node-shortest-path';
+                }
+            }, i * 50);
+        }
     }
 
     render() {
@@ -166,14 +181,15 @@ export default class App extends React.Component {
                             return (
                                 <div class="row">
                                     {row.map((node, nodeIndex) => {
-                                        const {row, column, isFinish, isStart} = node;
+                                        // console.log("row: " + rowIndex + "col: " + nodeIndex);
+                                        const {row, column, isFinish, isStart, nodeColor} = node;
                                         return (
                                         <Node
                                         key={nodeIndex}
                                         isFinish={isFinish}
-                                        isStart={isStart}>
-                                        row = {rowIndex};
-                                        column = {nodeIndex};
+                                        isStart={isStart}
+                                        row = {rowIndex}
+                                        column = {nodeIndex}>
                                         </Node>
                                         )
                                     })}
