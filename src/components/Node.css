@@ -6,7 +6,12 @@
   /* 100% {background-color: aqua; transform:rotate(360deg);} */
 }
 
-
+@keyframes shortestPathAnimation {
+  0% {}
+  50% {background-color: rgb(255, 255, 121)}
+  75% {background-color: rgb(255, 255, 255)}
+  100% {background-color: yellow;}
+}
 
 
 .node {
@@ -21,8 +26,13 @@
 .node:hover {
     /* background-color: rgba(158, 158, 158, 0.849); */
     opacity: 60%;
-    width: calc(118vw / 59);
-    height: calc(120vh / 29);
+    width: calc(150vw / 59);
+    height: calc(152.5424vh / 29);
+    margin-left: calc((120vw / 59 - 150vw / 59)/2);
+    margin-right: calc((119vw / 59 - 150vw / 59)/2);
+    margin-top: calc((120vh / 29 - 152.5424vh / 29)/2);
+    margin-bottom: calc((120vh / 29 - 152.5424vh / 29)/2);
+    box-shadow: 100, 100, 100, 100;
 }
 
 .start {
@@ -51,5 +61,10 @@
 
 .node-shortest-path {
   background-color: rgb(255, 255, 87);
+  transition-duration: 2s;
+  animation: shortestPathAnimation;
+  animation-duration: 4s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
 }
 

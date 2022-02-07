@@ -65,7 +65,7 @@ export default class App extends React.Component {
 
         }
     }
-    handleMouseUp(row, column) {
+    handleMouseUp() {
         this.setState({ mousePressed:false});
     }
 
@@ -103,7 +103,7 @@ export default class App extends React.Component {
                 if(i !== 0 && i !== shortestPath.length - 1) {
                     document.getElementById(`node-${node.row}-${node.column}`).className ='node node-shortest-path';
                 }
-            }, i * this.state.speed);
+            }, i * this.state.speed * 5);
         }
     }
 
