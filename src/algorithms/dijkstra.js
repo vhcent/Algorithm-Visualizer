@@ -15,6 +15,9 @@ export function dijkstra(grid, start, finish) {
         console.log("while loop");
         sortNodes(uncheckedNodes);
         const currentNode = uncheckedNodes.shift();
+
+        if (currentNode.isWall) continue;
+
         if (currentNode.distance === Infinity) {
             console.log("distance = infinity");
             return orderedVisitedNodes;
@@ -27,9 +30,6 @@ export function dijkstra(grid, start, finish) {
         }
         getNeighbors(currentNode, grid);
     }
-
-    console.log("while loop exited");
-
 }
 
 function sortNodes(nodes) {

@@ -1,3 +1,14 @@
+@keyframes nodeAnimation {
+  0% {background-color: lightgray;}
+  /* 0% {background-color: lightgray; transform:rotate(0deg);} */
+  25% {background-color: blue;}
+  100% {background-color: aqua;}
+  /* 100% {background-color: aqua; transform:rotate(360deg);} */
+}
+
+
+
+
 .node {
     width: calc(118vw / 59);
     height: calc(120vh / 29);
@@ -24,8 +35,8 @@
   border-radius: 10px;
 }
 
-.visited {
-  background-color: aqua;
+.wall {
+  background-color: rgb(68, 68, 68);
 }
 
 .shortestPath {
@@ -34,8 +45,11 @@
 
 .node-visited {
   background-color: aqua;
+  animation: nodeAnimation;
+  animation-duration: 2s;
 }
 
 .node-shortest-path {
   background-color: rgb(255, 255, 87);
 }
+
