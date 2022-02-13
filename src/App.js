@@ -95,13 +95,14 @@ export default class App extends React.Component {
                 }
             }
         }
-        newGrid[startRow][startColumn].isStart = true;
-        newGrid[finishRow][finishColumn].isFinish = true;
 
         startRow = 5;
         startColumn = 10;
         finishRow = 10;
-        finishColumn = 40;  
+        finishColumn = 40; 
+
+        newGrid[startRow][startColumn].isStart = true;
+        newGrid[finishRow][finishColumn].isFinish = true;
 
         this.setState({ grid: newGrid });
 
