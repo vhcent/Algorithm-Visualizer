@@ -56,6 +56,57 @@ export default class App extends React.Component {
         this.setState({ grid: grid });
     }
 
+    clearWalls() {
+        const newGrid = this.state.grid.slice();
+        for (let row of newGrid) {
+            for (let node of row) {
+                node.isWall = false;
+            }
+        }
+        this.setState({ grid: newGrid });
+    }
+
+    clearPath() {
+        const newGrid = this.state.grid.slice();
+        for (let row of newGrid) {
+            for (let node of row) {
+                node.isVisited = false;
+                if(!node.isWall && !node.isStart && !node.isFinish) {
+                    document.getElementById(
+                        `node-${node.row}-${node.column}`
+                    ).className = "node";
+                }
+            }
+        }
+        this.setState({ grid: newGrid });
+    }
+
+    resetBoard() {
+        this.clearWalls();
+        this.clearPath();
+        const newGrid = this.state.grid.slice();
+        for (let row of newGrid) {
+            for(let node of row) {
+                if(node.isStart) {
+                    node.isStart = false;
+                }
+                if(node.isFinish) {
+                    node.isFinish = false;
+                }
+            }
+        }
+        newGrid[startRow][startColumn].isStart = true;
+        newGrid[finishRow][finishColumn].isFinish = true;
+
+        startRow = 5;
+        startColumn = 10;
+        finishRow = 10;
+        finishColumn = 40;  
+
+        this.setState({ grid: newGrid });
+
+    }
+
     handleMouseDown(row, column) {
         const updatedGrid = this.state.grid.slice();
         if (updatedGrid[row][column].isStart) {
@@ -216,19 +267,19 @@ export default class App extends React.Component {
                         <div className="dropdown-content">
                             <button
                                 className="dropdown-button"
-                                onClick={() => {}}
+                                onClick={() => this.resetBoard()}
                             >
                                 Reset Board
                             </button>
                             <button
                                 className="dropdown-button"
-                                onClick={() => {}}
+                                onClick={() => this.clearWalls()}
                             >
                                 Clear Walls
                             </button>
                             <button
                                 className="dropdown-button"
-                                onClick={() => {}}
+                                onClick={() => this.clearPath()}
                             >
                                 Clear Path
                             </button>

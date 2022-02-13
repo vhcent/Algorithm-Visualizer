@@ -18,7 +18,6 @@ class PriorityQueue
         if(!addSuccessful) {
             this.array.push(node);
         }
-        
     }
 
     pop() {
