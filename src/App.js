@@ -71,10 +71,15 @@ export default class App extends React.Component {
         for (let row of newGrid) {
             for (let node of row) {
                 node.isVisited = false;
+                node.fcost = Infinity;
+                node.gcost = Infinity;
+                node.hcost = Infinity;
+                node.distance = Infinity;
+                node.previousNode = null;
                 if(!node.isWall && !node.isStart && !node.isFinish) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
-                    ).className = "node";
+                    ).className = `node`;
                 }
             }
         }
@@ -145,6 +150,7 @@ export default class App extends React.Component {
     }
 
     visualizeDijkstra() {
+        this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
@@ -154,6 +160,7 @@ export default class App extends React.Component {
     }
 
     visualizeAStar() {
+        this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];

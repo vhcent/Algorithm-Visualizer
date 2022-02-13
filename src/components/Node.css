@@ -21,6 +21,7 @@
     border: 1px solid black;
     display: inline-block;
     transition-duration: 0.8s;
+    user-select: none;
   }
 
 .node:hover {
