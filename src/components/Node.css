@@ -26,12 +26,12 @@
 .node:hover {
     /* background-color: rgba(158, 158, 158, 0.849); */
     opacity: 60%;
-    width: calc(150vw / 59);
+    /* width: calc(150vw / 59);
     height: calc(152.5424vh / 29);
     margin-left: calc((120vw / 59 - 150vw / 59)/2);
     margin-right: calc((119vw / 59 - 150vw / 59)/2);
     margin-top: calc((120vh / 29 - 152.5424vh / 29)/2);
-    margin-bottom: calc((120vh / 29 - 152.5424vh / 29)/2);
+    margin-bottom: calc((120vh / 29 - 152.5424vh / 29)/2); */
     box-shadow: 100, 100, 100, 100;
 }
 

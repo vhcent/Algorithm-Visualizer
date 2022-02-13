@@ -7,6 +7,7 @@ import Node from "./components/Node";
 
 //algorithms
 import { dijkstra, getShortestPath } from "./algorithms/dijkstra";
+import {astar} from "./algorithms/astar";
 
 let startRow = 5;
 let startColumn = 10;
@@ -43,6 +44,10 @@ export default class App extends React.Component {
                     mouseDown: false,
                     mouseEnter: false,
                     mouseUp: false,
+                    //astar
+                    fcost: Infinity, //distance from startNode to node to endNode
+                    gcost: Infinity, //distance from startNode
+                    hcost: Infinity, //distance from End Node
                 };
                 currentRow.push(currentNode);
             }
@@ -84,7 +89,7 @@ export default class App extends React.Component {
         }
     }
     handleMouseUp() {
-        this.setState({ mousePressed: false });
+        this.setState({ mousePressed: false, moveStart: false, moveFinish: false });
     }
 
     visualizeDijkstra() {
@@ -92,8 +97,15 @@ export default class App extends React.Component {
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
         this.visualizeSearch(dijkstra(grid, start, finish));
-        console.log("Visited: " + this.state.visited);
+        //console.log("Visited: " + this.state.visited);
         // this.visualizeShortestPath(getShortestPath(finish));
+    }
+
+    visualizeAStar() {
+        const grid = this.state.grid;
+        const start = grid[startRow][startColumn];
+        const finish = grid[finishRow][finishColumn];
+        this.visualizeSearch(astar(grid, start, finish));
     }
 
     visualizeSearch(visitedNodesInOrder) {
@@ -103,7 +115,6 @@ export default class App extends React.Component {
         for (let i = 0; i < visitedNodesInOrder.length; i++) {
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
-                console.log("HI");
                 if (i === visitedNodesInOrder.length - 1)
                     this.visualizeShortestPath(getShortestPath(finish));
                 if (i !== 0 && i !== visitedNodesInOrder.length - 1) {
@@ -148,7 +159,7 @@ export default class App extends React.Component {
                             </button>
                             <button
                                 className="dropdown-button"
-                                onClick={() => {}}
+                                onClick={() => this.visualizeAStar()}
                             >
                                 A*
                             </button>
