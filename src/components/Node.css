@@ -50,6 +50,14 @@
   background-color: rgb(68, 68, 68);
 }
 
+.lightweight {
+  background-color: orange;
+}
+
+.heavyweight {
+  background-color: purple;
+}
+
 .shortestPath {
   background-color: yellow;
 }

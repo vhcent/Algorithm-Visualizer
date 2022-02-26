@@ -17,6 +17,7 @@ export function dijkstra(grid, start, finish) {
 
         if (currentNode.isWall) continue;
 
+
         if (currentNode.distance === Infinity) {
             return orderedVisited;
         }

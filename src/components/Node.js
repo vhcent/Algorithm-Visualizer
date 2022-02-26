@@ -9,7 +9,7 @@ export default class Node extends Component {
     }
 
     render() {
-        const {row, column, isStart, isFinish, isWall, nodeColor, onMouseDown, onMouseEnter, onMouseUp} = this.props;
+        const {row, column, isStart, isFinish, isWall, isLightWeight, isHeavyWeight, nodeColor, onMouseDown, onMouseEnter, onMouseUp} = this.props;
         var extraClassName='';
         if (isStart) {
             extraClassName='start';
@@ -20,8 +20,11 @@ export default class Node extends Component {
         else if (isWall) {
             extraClassName='wall'
         }
-        else {
-            extraClassName='';
+        else if (isLightWeight) {
+            extraClassName='lightweight';
+        }
+        else if (isHeavyWeight) {
+            extraClassName='heavyweight'
         }
         // console.log('R:' + row + ": " + column);
         return (<div style={{ backgroundColor: nodeColor}}

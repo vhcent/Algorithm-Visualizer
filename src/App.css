@@ -56,11 +56,13 @@ html {
     position: relative;
     display: inline-block;
     text-align: center;
-    width: 23vw;
+    width: 18vw;
     border: none;
     background: none;
     color: lightgreen;
     margin-top: 4vh;
+    margin-left: 1vh;
+    margin-right: 1vh;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 2em;
@@ -105,7 +107,7 @@ html {
   
   .dropdown-container .dropdown-button {
     transition-duration: 0.6s;
-    width: 23vw;
+    width: 18vw;
   }
   
   .dropdown-button:hover {

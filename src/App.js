@@ -24,6 +24,7 @@ export default class App extends React.Component {
             mousePressed: false,
             moveStart: false,
             moveFinish: false,
+            nodeType: "Wall", // Can be "Wall", "LightWeight", or "HeavyWeight"
         };
     }
 
@@ -40,6 +41,8 @@ export default class App extends React.Component {
                     distance: Infinity,
                     isVisited: false,
                     isWall: false,
+                    isLightWeight: false,
+                    isHeavyWeight: false,
                     previousNode: null,
                     mouseDown: false,
                     mouseEnter: false,
@@ -56,11 +59,32 @@ export default class App extends React.Component {
         this.setState({ grid: grid });
     }
 
+    setWall() {
+        this.setState({nodeType: "Wall"})
+    }
+    setLightWeight() {
+        this.setState({nodeType: "LightWeight"})
+    }
+    setHeavyWeight() {
+        this.setState({nodeType: "HeavyWeight"})
+    }
+
     clearWalls() {
         const newGrid = this.state.grid.slice();
         for (let row of newGrid) {
             for (let node of row) {
                 node.isWall = false;
+            }
+        }
+        this.setState({ grid: newGrid });
+    }
+
+    clearWeights() {
+        const newGrid = this.state.grid.slice();
+        for (let row of newGrid) {
+            for (let node of row) {
+                node.isLightWeight = false;
+                node.isHeavyWeight = false;
             }
         }
         this.setState({ grid: newGrid });
@@ -76,7 +100,7 @@ export default class App extends React.Component {
                 node.hcost = Infinity;
                 node.distance = Infinity;
                 node.previousNode = null;
-                if(!node.isWall && !node.isStart && !node.isFinish) {
+                if(!node.isLightWeight && !node.isHeavyWeight && !node.isWall && !node.isStart && !node.isFinish) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
                     ).className = `node`;
@@ -88,6 +112,7 @@ export default class App extends React.Component {
 
     resetBoard() {
         this.clearWalls();
+        this.clearWeights();
         this.clearPath();
         const newGrid = this.state.grid.slice();
         for (let row of newGrid) {
@@ -120,8 +145,31 @@ export default class App extends React.Component {
         } else if (updatedGrid[row][column].isFinish) {
             this.setState({ moveFinish: true });
         } else {
-            updatedGrid[row][column].isWall =
+            if(this.state.nodeType === "Wall")
+            {
+                updatedGrid[row][column].isLightWeight = false;
+                updatedGrid[row][column].isHeavyWeight = false;
+                updatedGrid[row][column].isWall =
                 !this.state.grid[row][column].isWall;
+                
+            }
+            else if(this.state.nodeType === "LightWeight")
+            {
+                updatedGrid[row][column].isWall = false;
+                updatedGrid[row][column].isHeavyWeight = false;
+                updatedGrid[row][column].isLightWeight =
+                !this.state.grid[row][column].isLightWeight;
+            }
+
+            else if(this.state.nodeType === "HeavyWeight")
+            {
+                console.log("HeavyWieight Selected");
+                updatedGrid[row][column].isWall = false;
+                updatedGrid[row][column].isLightWeight = false;
+                updatedGrid[row][column].isHeavyWeight =
+                !this.state.grid[row][column].isHeavyWeight;
+            }
+            
         }
         this.setState({ grid: updatedGrid, mousePressed: true });
     }
@@ -138,9 +186,25 @@ export default class App extends React.Component {
                 updatedGrid[row][column].isFinish = !updatedGrid[row][column].isFinish;
                 finishRow = row;
                 finishColumn = column;
-            } else {
+            } else if (this.state.nodeType === "Wall") {
+                updatedGrid[row][column].isLightWeight = false;
+                updatedGrid[row][column].isHeavyWeight = false;
                 updatedGrid[row][column].isWall =
                     !this.state.grid[row][column].isWall;
+            }
+            else if (this.state.nodeType === "LightWeight")
+            {
+                updatedGrid[row][column].isWall = false;
+                updatedGrid[row][column].isHeavyWeight = false;
+                updatedGrid[row][column].isLightWeight =
+                !this.state.grid[row][column].isLightWeight;
+            }
+            else if(this.state.nodeType === "HeavyWeight")
+            {
+                updatedGrid[row][column].isWall = false;
+                updatedGrid[row][column].isLightWeight = false;
+                updatedGrid[row][column].isHeavyWeight =
+                !this.state.grid[row][column].isHeavyWeight;
             }
             this.setState({ grid: updatedGrid, mousePressed: true });
         }
@@ -287,9 +351,38 @@ export default class App extends React.Component {
                             </button>
                             <button
                                 className="dropdown-button"
+                                onClick={() => this.clearWeights()}
+                            >
+                                Clear Weights
+                            </button>
+                            <button
+                                className="dropdown-button"
                                 onClick={() => this.clearPath()}
                             >
                                 Clear Path
+                            </button>
+                        </div>
+                    </div>
+                    <div className="dropdown">
+                        Node
+                        <div className="dropdown-content">
+                            <button
+                                className="dropdown-button"
+                                onClick={() => this.setWall()}
+                            >
+                                Wall
+                            </button>
+                            <button
+                                className="dropdown-button"
+                                onClick={() => this.setLightWeight()}
+                            >
+                                Light Weight
+                            </button>
+                            <button
+                                className="dropdown-button"
+                                onClick={() => this.setHeavyWeight()}
+                            >
+                                Heavy Weight
                             </button>
                         </div>
                     </div>
@@ -307,6 +400,8 @@ export default class App extends React.Component {
                                         isFinish,
                                         isStart,
                                         isWall,
+                                        isLightWeight,
+                                        isHeavyWeight,
                                     } = node;
                                     return (
                                         <Node
@@ -314,6 +409,8 @@ export default class App extends React.Component {
                                             isFinish={isFinish}
                                             isStart={isStart}
                                             isWall={isWall}
+                                            isLightWeight={isLightWeight}
+                                            isHeavyWeight={isHeavyWeight}
                                             row={rowIndex}
                                             column={nodeIndex}
                                             onMouseDown={(row, column) =>
