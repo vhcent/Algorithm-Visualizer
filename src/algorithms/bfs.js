@@ -1,8 +1,6 @@
 import {getNeighbors, sortByDistance} from "./Helper";
 
-export function dijkstra(grid, start, finish) {
-    const lightWeightSize = 5;
-    const heavyWeightSize = 10;
+export function bfs(grid, start, finish) {
     const orderedVisited = []
     start.distance = 0;
     const uncheckedNodes = []
@@ -34,16 +32,7 @@ export function dijkstra(grid, start, finish) {
             let prevDistance = neighbor.distance;
             let prevNode = neighbor.previousNode;
 
-            if (neighbor.isLightWeight) 
-            {
-                neighbor.distance = currentNode.distance + lightWeightSize;
-            }
-            else if (neighbor.isHeavyWeight) {
-                neighbor.distance = currentNode.distance + heavyWeightSize;
-            }
-            else {
-                neighbor.distance = currentNode.distance + 1;
-            }
+            neighbor.distance = currentNode.distance + 1;
             neighbor.previousNode = currentNode;
 
             

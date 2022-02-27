@@ -8,6 +8,7 @@ import Node from "./components/Node";
 //algorithms
 import { dijkstra, getShortestPath } from "./algorithms/dijkstra";
 import {astar} from "./algorithms/astar";
+import {bfs} from "./algorithms/bfs";
 
 let startRow = 5;
 let startColumn = 10;
@@ -25,6 +26,7 @@ export default class App extends React.Component {
             moveStart: false,
             moveFinish: false,
             nodeType: "Wall", // Can be "Wall", "LightWeight", or "HeavyWeight"
+            running: false,
         };
     }
 
@@ -139,6 +141,7 @@ export default class App extends React.Component {
     }
 
     handleMouseDown(row, column) {
+        if (this.state.running) return;
         const updatedGrid = this.state.grid.slice();
         if (updatedGrid[row][column].isStart) {
             this.setState({ moveStart: true });
@@ -174,6 +177,7 @@ export default class App extends React.Component {
         this.setState({ grid: updatedGrid, mousePressed: true });
     }
     handleMouseEnter(row, column) {
+        if (this.state.running) return;
         if (this.state.mousePressed) {
             const updatedGrid = this.state.grid.slice();
             if (this.state.moveStart) {
@@ -210,36 +214,50 @@ export default class App extends React.Component {
         }
     }
     handleMouseUp() {
+        if (this.state.running) return;
         this.setState({ mousePressed: false, moveStart: false, moveFinish: false });
     }
 
     visualizeDijkstra() {
+        this.setState({running: true});
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
         this.visualizeSearch(dijkstra(grid, start, finish));
-        //console.log("Visited: " + this.state.visited);
-        // this.visualizeShortestPath(getShortestPath(finish));
     }
 
     visualizeAStar() {
+        this.setState({running: true});
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
         this.visualizeSearch(astar(grid, start, finish));
     }
+    visualizeBFS() {
+        this.clearWeights();
+        this.setState({running: true});
+        this.clearPath();
+        const grid = this.state.grid;
+        const start = grid[startRow][startColumn];
+        const finish = grid[finishRow][finishColumn];
+        this.visualizeSearch(bfs(grid, start, finish));
+    }
 
     visualizeSearch(visitedNodesInOrder) {
         const grid = this.state.grid;
         const finish = grid[finishRow][finishColumn];
-        console.log(visitedNodesInOrder);
         for (let i = 0; i < visitedNodesInOrder.length; i++) {
+            if (visitedNodesInOrder[i].isLightWeight || visitedNodesInOrder[i].isHeavyWeight)
+                {
+                    continue;
+                }
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
                 if (i === visitedNodesInOrder.length - 1)
                     this.visualizeShortestPath(getShortestPath(finish));
+                
                 if (i !== 0 && i !== visitedNodesInOrder.length - 1) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
@@ -250,8 +268,11 @@ export default class App extends React.Component {
     }
 
     visualizeShortestPath(shortestPath) {
-        console.log(shortestPath);
         for (let i = 0; i < shortestPath.length; i++) {
+            if (shortestPath[i].isLightWeight || shortestPath[i].isHeavyWeight)
+                {
+                    continue;
+                }
             setTimeout(() => {
                 const node = shortestPath[i];
 
@@ -261,6 +282,11 @@ export default class App extends React.Component {
                     ).className = "node node-shortest-path";
                 }
             }, i * this.state.speed * 5);
+
+            if (i >= shortestPath.length - 1)
+            {
+                this.setState({running: false})
+            }
         }
     }
 
@@ -276,15 +302,31 @@ export default class App extends React.Component {
                         <div className="dropdown-content">
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.visualizeDijkstra()}
                             >
-                                Dijkstra's
+                                Dijkstra's Algorithm
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.visualizeAStar()}
                             >
-                                A*
+                                A* Algorithm
+                            </button>
+                            <button
+                                className="dropdown-button"
+                                disabled={this.state.running}
+                                onClick={() => this.visualizeBFS()}
+                            >
+                                Breadth-First Search (clears weights)
+                            </button>
+                            <button
+                                className="dropdown-button"
+                                disabled={this.state.running}
+                                onClick={() => this.visualizeAStar()}
+                            >
+                                Depth-First Search (clears weights)
                             </button>
                         </div>
                     </div>
@@ -292,6 +334,7 @@ export default class App extends React.Component {
                         Terrain
                         <div className="dropdown-content">
                             <button
+                                disabled={this.state.running}
                                 className="dropdown-button"
                                 onClick={() => {}}
                             >
@@ -299,6 +342,7 @@ export default class App extends React.Component {
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => {}}
                             >
                                 A*
@@ -310,6 +354,7 @@ export default class App extends React.Component {
                         <div className="dropdown-content">
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => {
                                     this.setState({ speed: 100 });
                                 }}
@@ -318,6 +363,7 @@ export default class App extends React.Component {
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => {
                                     this.setState({ speed: 50 });
                                 }}
@@ -326,6 +372,7 @@ export default class App extends React.Component {
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => {
                                     this.setState({ speed: 5 });
                                 }}
@@ -339,24 +386,28 @@ export default class App extends React.Component {
                         <div className="dropdown-content">
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.resetBoard()}
                             >
                                 Reset Board
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.clearWalls()}
                             >
                                 Clear Walls
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.clearWeights()}
                             >
                                 Clear Weights
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.clearPath()}
                             >
                                 Clear Path
@@ -368,18 +419,21 @@ export default class App extends React.Component {
                         <div className="dropdown-content">
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.setWall()}
                             >
                                 Wall
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.setLightWeight()}
                             >
                                 Light Weight
                             </button>
                             <button
                                 className="dropdown-button"
+                                disabled={this.state.running}
                                 onClick={() => this.setHeavyWeight()}
                             >
                                 Heavy Weight
@@ -439,14 +493,3 @@ export default class App extends React.Component {
         );
     }
 }
-
-// const createNode = (column, row) => {
-//     return {
-//         column,
-//         row,
-//         isStart: row === 10 && column === 10,
-//         isFinish: row === 10 && column === 30,
-//         isWall: false,
-
-//     }
-// }

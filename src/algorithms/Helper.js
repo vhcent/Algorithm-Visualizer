@@ -1,3 +1,7 @@
+export function sortByDistance(nodes) {
+    nodes.sort((A, B) => A.distance - B.distance);
+}
+
 export function getNeighbors(currentNode, grid) {
     const neighbors = [];
     const column = currentNode.column;
@@ -17,8 +21,4 @@ export function getNeighbors(currentNode, grid) {
     }
 
     return neighbors;
-}
-
-export function sortByDistance(nodes) {
-    nodes.sort((A, B) => A.distance - B.distance);
 }

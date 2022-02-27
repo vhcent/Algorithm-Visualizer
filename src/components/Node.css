@@ -41,9 +41,16 @@
   border-radius: 10px;
 }
 
+.start:hover {
+  opacity: 100%;
+}
+
 .finish {
   background-color: lightcoral;
   border-radius: 10px;
+}
+.finish:hover {
+  opacity: 100%;
 }
 
 .wall {

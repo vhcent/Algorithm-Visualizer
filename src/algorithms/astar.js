@@ -1,10 +1,11 @@
-import {getNeighbors} from "./Helper";
+import {getNeighbors, sortByDistance} from "./Helper";
 
 class PriorityQueue 
 {
     constructor() {
         this.array = [];
     }
+    
 
     push(node) {
         var addSuccessful = false;
@@ -49,6 +50,8 @@ class PriorityQueue
 export function astar(grid, start, finish) {
     let pQueue = new PriorityQueue();
 
+    const lightWeightSize = 5;
+    const heavyWeightSize = 10;
     start.gcost = 0;
     start.hcost = distance(start, finish);
     start.fcost = start.gcost + start.hcost;
@@ -73,7 +76,14 @@ export function astar(grid, start, finish) {
             if(currentNode.gcost + 1 < neighbor.gcost) {
                 console.log("loop 1");
                 neighbor.previousNode = currentNode;
-                neighbor.gcost = currentNode.gcost + 1;
+                if(neighbor.isLightWeight) {
+                    neighbor.gcost = currentNode.gcost + lightWeightSize;
+                }
+                else if(neighbor.isHeavyWeight) {
+                    neighbor.gcost = currentNode.gcost + heavyWeightSize;
+                }
+                else neighbor.gcost = currentNode.gcost + 1;
+                
                 neighbor.hcost = distance(neighbor, finish);
                 neighbor.fcost = neighbor.gcost + neighbor.hcost;
                 if(!pQueue.includes(neighbor)) {
@@ -87,7 +97,6 @@ export function astar(grid, start, finish) {
 
     return orderedVisited;
 }
-
 
 function distance(node1, node2) {
     return Math.sqrt(Math.pow(node2.row - node1.row, 2) + Math.pow(node2.column - node1.column, 2));
