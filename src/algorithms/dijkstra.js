@@ -55,13 +55,3 @@ export function dijkstra(grid, start, finish) {
         }
     }
 }
-
-export function getShortestPath(finish) {
-    const shortestPath = [];
-    let currentNode = finish;
-    while(currentNode !== null) {
-        shortestPath.unshift(currentNode);
-        currentNode = currentNode.previousNode;
-    }
-    return shortestPath;
-}

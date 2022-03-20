@@ -31,7 +31,6 @@ export function bfs(grid, start, finish) {
         for (let neighbor of neighbors) {
             let prevDistance = neighbor.distance;
             let prevNode = neighbor.previousNode;
-
             neighbor.distance = currentNode.distance + 1;
             neighbor.previousNode = currentNode;
 

@@ -22,3 +22,13 @@ export function getNeighbors(currentNode, grid) {
 
     return neighbors;
 }
+
+export function getShortestPath(finish) {
+    const shortestPath = [];
+    let currentNode = finish;
+    while(currentNode !== null) {
+        shortestPath.unshift(currentNode);
+        currentNode = currentNode.previousNode;
+    }
+    return shortestPath;
+}

@@ -6,9 +6,11 @@ import "./App.css";
 import Node from "./components/Node";
 
 //algorithms
-import { dijkstra, getShortestPath } from "./algorithms/dijkstra";
+import {getShortestPath} from "./algorithms/Helper.js";
+import {dijkstra} from "./algorithms/dijkstra";
 import {astar} from "./algorithms/astar";
 import {bfs} from "./algorithms/bfs";
+import {dfs} from "./algorithms/dfs";
 
 let startRow = 5;
 let startColumn = 10;
@@ -25,7 +27,7 @@ export default class App extends React.Component {
             mousePressed: false,
             moveStart: false,
             moveFinish: false,
-            nodeType: "Wall", // Can be "Wall", "LightWeight", or "HeavyWeight"
+            nodeType: "Wall", // Can be "Wall" or "LightWeight"
             running: false,
         };
     }
@@ -44,7 +46,6 @@ export default class App extends React.Component {
                     isVisited: false,
                     isWall: false,
                     isLightWeight: false,
-                    isHeavyWeight: false,
                     previousNode: null,
                     mouseDown: false,
                     mouseEnter: false,
@@ -67,9 +68,6 @@ export default class App extends React.Component {
     setLightWeight() {
         this.setState({nodeType: "LightWeight"})
     }
-    setHeavyWeight() {
-        this.setState({nodeType: "HeavyWeight"})
-    }
 
     clearWalls() {
         const newGrid = this.state.grid.slice();
@@ -86,7 +84,6 @@ export default class App extends React.Component {
         for (let row of newGrid) {
             for (let node of row) {
                 node.isLightWeight = false;
-                node.isHeavyWeight = false;
             }
         }
         this.setState({ grid: newGrid });
@@ -102,7 +99,7 @@ export default class App extends React.Component {
                 node.hcost = Infinity;
                 node.distance = Infinity;
                 node.previousNode = null;
-                if(!node.isLightWeight && !node.isHeavyWeight && !node.isWall && !node.isStart && !node.isFinish) {
+                if(!node.isLightWeight && !node.isWall && !node.isStart && !node.isFinish) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
                     ).className = `node`;
@@ -151,7 +148,6 @@ export default class App extends React.Component {
             if(this.state.nodeType === "Wall")
             {
                 updatedGrid[row][column].isLightWeight = false;
-                updatedGrid[row][column].isHeavyWeight = false;
                 updatedGrid[row][column].isWall =
                 !this.state.grid[row][column].isWall;
                 
@@ -159,18 +155,9 @@ export default class App extends React.Component {
             else if(this.state.nodeType === "LightWeight")
             {
                 updatedGrid[row][column].isWall = false;
-                updatedGrid[row][column].isHeavyWeight = false;
+
                 updatedGrid[row][column].isLightWeight =
                 !this.state.grid[row][column].isLightWeight;
-            }
-
-            else if(this.state.nodeType === "HeavyWeight")
-            {
-                console.log("HeavyWieight Selected");
-                updatedGrid[row][column].isWall = false;
-                updatedGrid[row][column].isLightWeight = false;
-                updatedGrid[row][column].isHeavyWeight =
-                !this.state.grid[row][column].isHeavyWeight;
             }
             
         }
@@ -192,23 +179,14 @@ export default class App extends React.Component {
                 finishColumn = column;
             } else if (this.state.nodeType === "Wall") {
                 updatedGrid[row][column].isLightWeight = false;
-                updatedGrid[row][column].isHeavyWeight = false;
                 updatedGrid[row][column].isWall =
                     !this.state.grid[row][column].isWall;
             }
             else if (this.state.nodeType === "LightWeight")
             {
                 updatedGrid[row][column].isWall = false;
-                updatedGrid[row][column].isHeavyWeight = false;
                 updatedGrid[row][column].isLightWeight =
                 !this.state.grid[row][column].isLightWeight;
-            }
-            else if(this.state.nodeType === "HeavyWeight")
-            {
-                updatedGrid[row][column].isWall = false;
-                updatedGrid[row][column].isLightWeight = false;
-                updatedGrid[row][column].isHeavyWeight =
-                !this.state.grid[row][column].isHeavyWeight;
             }
             this.setState({ grid: updatedGrid, mousePressed: true });
         }
@@ -224,7 +202,7 @@ export default class App extends React.Component {
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
-        this.visualizeSearch(dijkstra(grid, start, finish));
+        this.visualizeSearch(dijkstra(grid, start, finish), 1);
     }
 
     visualizeAStar() {
@@ -233,7 +211,7 @@ export default class App extends React.Component {
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
-        this.visualizeSearch(astar(grid, start, finish));
+        this.visualizeSearch(astar(grid, start, finish), 1);
     }
     visualizeBFS() {
         this.clearWeights();
@@ -242,21 +220,31 @@ export default class App extends React.Component {
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
-        this.visualizeSearch(bfs(grid, start, finish));
+        this.visualizeSearch(bfs(grid, start, finish), 1);
     }
 
-    visualizeSearch(visitedNodesInOrder) {
+    visualizeDFS() {
+        this.clearWeights();
+        this.setState({running: true});
+        this.clearPath();
+        const grid = this.state.grid;
+        const start = grid[startRow][startColumn];
+        const finish = grid[finishRow][finishColumn];
+        this.visualizeSearch(dfs(grid, start, finish), 5);
+    }
+
+    visualizeSearch(visitedNodesInOrder, speedMultiplier) {
         const grid = this.state.grid;
         const finish = grid[finishRow][finishColumn];
         for (let i = 0; i < visitedNodesInOrder.length; i++) {
-            if (visitedNodesInOrder[i].isLightWeight || visitedNodesInOrder[i].isHeavyWeight)
+            if (visitedNodesInOrder[i].isLightWeight)
                 {
                     continue;
                 }
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
                 if (i === visitedNodesInOrder.length - 1)
-                    this.visualizeShortestPath(getShortestPath(finish));
+                    this.visualizeShortestPath(getShortestPath(finish), speedMultiplier);
                 
                 if (i !== 0 && i !== visitedNodesInOrder.length - 1) {
                     document.getElementById(
@@ -267,9 +255,9 @@ export default class App extends React.Component {
         }
     }
 
-    visualizeShortestPath(shortestPath) {
+    visualizeShortestPath(shortestPath, speedMultiplier) {
         for (let i = 0; i < shortestPath.length; i++) {
-            if (shortestPath[i].isLightWeight || shortestPath[i].isHeavyWeight)
+            if (shortestPath[i].isLightWeight)
                 {
                     continue;
                 }
@@ -281,7 +269,7 @@ export default class App extends React.Component {
                         `node-${node.row}-${node.column}`
                     ).className = "node node-shortest-path";
                 }
-            }, i * this.state.speed * 5);
+            }, i * this.state.speed * 10 / speedMultiplier);
 
             if (i >= shortestPath.length - 1)
             {
@@ -324,7 +312,7 @@ export default class App extends React.Component {
                             <button
                                 className="dropdown-button"
                                 disabled={this.state.running}
-                                onClick={() => this.visualizeAStar()}
+                                onClick={() => this.visualizeDFS()}
                             >
                                 Depth-First Search (clears weights)
                             </button>
@@ -429,14 +417,7 @@ export default class App extends React.Component {
                                 disabled={this.state.running}
                                 onClick={() => this.setLightWeight()}
                             >
-                                Light Weight
-                            </button>
-                            <button
-                                className="dropdown-button"
-                                disabled={this.state.running}
-                                onClick={() => this.setHeavyWeight()}
-                            >
-                                Heavy Weight
+                                Weight
                             </button>
                         </div>
                     </div>
@@ -455,7 +436,6 @@ export default class App extends React.Component {
                                         isStart,
                                         isWall,
                                         isLightWeight,
-                                        isHeavyWeight,
                                     } = node;
                                     return (
                                         <Node
@@ -464,7 +444,6 @@ export default class App extends React.Component {
                                             isStart={isStart}
                                             isWall={isWall}
                                             isLightWeight={isLightWeight}
-                                            isHeavyWeight={isHeavyWeight}
                                             row={rowIndex}
                                             column={nodeIndex}
                                             onMouseDown={(row, column) =>
