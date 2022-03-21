@@ -57,13 +57,13 @@
   background-color: rgb(39, 39, 39);
 }
 
-.lightweight {
-  background-color: rgb(110, 110, 110);
+.weight {
+  background-color: rgb(128, 128, 128);
 }
 
-/* .shortestPath {
+.shortestPath {
   background-color: yellow;
-} */
+}
 
 .node-visited {
   background-color: aqua;
@@ -73,7 +73,7 @@
 
 .node-shortest-path {
   background-color: rgb(255, 255, 87);
-  /* transition-duration: 2s; */
+  transition-duration: 2s;
   /* animation: shortestPathAnimation; */
   /* animation-duration: 4s; */
   /* animation-timing-function: ease-in-out; */

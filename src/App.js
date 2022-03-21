@@ -45,7 +45,7 @@ export default class App extends React.Component {
                     distance: Infinity,
                     isVisited: false,
                     isWall: false,
-                    isLightWeight: false,
+                    isWeight: false,
                     previousNode: null,
                     mouseDown: false,
                     mouseEnter: false,
@@ -65,8 +65,8 @@ export default class App extends React.Component {
     setWall() {
         this.setState({nodeType: "Wall"})
     }
-    setLightWeight() {
-        this.setState({nodeType: "LightWeight"})
+    setWeight() {
+        this.setState({nodeType: "Weight"})
     }
 
     clearWalls() {
@@ -83,7 +83,7 @@ export default class App extends React.Component {
         const newGrid = this.state.grid.slice();
         for (let row of newGrid) {
             for (let node of row) {
-                node.isLightWeight = false;
+                node.isWeight = false;
             }
         }
         this.setState({ grid: newGrid });
@@ -99,7 +99,7 @@ export default class App extends React.Component {
                 node.hcost = Infinity;
                 node.distance = Infinity;
                 node.previousNode = null;
-                if(!node.isLightWeight && !node.isWall && !node.isStart && !node.isFinish) {
+                if(!node.isWeight && !node.isWall && !node.isStart && !node.isFinish) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
                     ).className = `node`;
@@ -147,17 +147,17 @@ export default class App extends React.Component {
         } else {
             if(this.state.nodeType === "Wall")
             {
-                updatedGrid[row][column].isLightWeight = false;
+                updatedGrid[row][column].isWeight = false;
                 updatedGrid[row][column].isWall =
                 !this.state.grid[row][column].isWall;
                 
             }
-            else if(this.state.nodeType === "LightWeight")
+            else if(this.state.nodeType === "Weight")
             {
                 updatedGrid[row][column].isWall = false;
 
-                updatedGrid[row][column].isLightWeight =
-                !this.state.grid[row][column].isLightWeight;
+                updatedGrid[row][column].isWeight =
+                !this.state.grid[row][column].isWeight;
             }
             
         }
@@ -178,15 +178,15 @@ export default class App extends React.Component {
                 finishRow = row;
                 finishColumn = column;
             } else if (this.state.nodeType === "Wall") {
-                updatedGrid[row][column].isLightWeight = false;
+                updatedGrid[row][column].isWeight = false;
                 updatedGrid[row][column].isWall =
                     !this.state.grid[row][column].isWall;
             }
-            else if (this.state.nodeType === "LightWeight")
+            else if (this.state.nodeType === "Weight")
             {
                 updatedGrid[row][column].isWall = false;
-                updatedGrid[row][column].isLightWeight =
-                !this.state.grid[row][column].isLightWeight;
+                updatedGrid[row][column].isWeight =
+                !this.state.grid[row][column].isWeight;
             }
             this.setState({ grid: updatedGrid, mousePressed: true });
         }
@@ -237,7 +237,7 @@ export default class App extends React.Component {
         const grid = this.state.grid;
         const finish = grid[finishRow][finishColumn];
         for (let i = 0; i < visitedNodesInOrder.length; i++) {
-            if (visitedNodesInOrder[i].isLightWeight)
+            if (visitedNodesInOrder[i].isWeight)
                 {
                     continue;
                 }
@@ -257,7 +257,7 @@ export default class App extends React.Component {
 
     visualizeShortestPath(shortestPath) {
         for (let i = 0; i < shortestPath.length; i++) {
-            if (shortestPath[i].isLightWeight)
+            if (shortestPath[i].isWeight)
                 {
                     continue;
                 }
@@ -307,14 +307,14 @@ export default class App extends React.Component {
                                 disabled={this.state.running}
                                 onClick={() => this.visualizeBFS()}
                             >
-                                Breadth-First Search (clears weights)
+                                Breadth-First Search
                             </button>
                             <button
                                 className="dropdown-button"
                                 disabled={this.state.running}
                                 onClick={() => this.visualizeDFS()}
                             >
-                                Depth-First Search (clears weights)
+                                Depth-First Search
                             </button>
                         </div>
                     </div>
@@ -415,7 +415,7 @@ export default class App extends React.Component {
                             <button
                                 className="dropdown-button"
                                 disabled={this.state.running}
-                                onClick={() => this.setLightWeight()}
+                                onClick={() => this.setWeight()}
                             >
                                 Weight
                             </button>
@@ -435,7 +435,7 @@ export default class App extends React.Component {
                                         isFinish,
                                         isStart,
                                         isWall,
-                                        isLightWeight,
+                                        isWeight,
                                     } = node;
                                     return (
                                         <Node
@@ -443,7 +443,7 @@ export default class App extends React.Component {
                                             isFinish={isFinish}
                                             isStart={isStart}
                                             isWall={isWall}
-                                            isLightWeight={isLightWeight}
+                                            isWeight={isWeight}
                                             row={rowIndex}
                                             column={nodeIndex}
                                             onMouseDown={(row, column) =>
