@@ -27,7 +27,7 @@ export default class App extends React.Component {
             mousePressed: false,
             moveStart: false,
             moveFinish: false,
-            nodeType: "Wall", // Can be "Wall" or "LightWeight"
+            nodeType: "Wall", // Can be "Wall" or "Weight"
             running: false,
         };
     }
@@ -233,7 +233,7 @@ export default class App extends React.Component {
         this.visualizeSearch(dfs(grid, start, finish), 5);
     }
 
-    visualizeSearch(visitedNodesInOrder, speedMultiplier) {
+    visualizeSearch(visitedNodesInOrder) {
         const grid = this.state.grid;
         const finish = grid[finishRow][finishColumn];
         for (let i = 0; i < visitedNodesInOrder.length; i++) {
@@ -244,7 +244,7 @@ export default class App extends React.Component {
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
                 if (i === visitedNodesInOrder.length - 1)
-                    this.visualizeShortestPath(getShortestPath(finish), speedMultiplier);
+                    this.visualizeShortestPath(getShortestPath(finish));
                 
                 if (i !== 0 && i !== visitedNodesInOrder.length - 1) {
                     document.getElementById(
@@ -255,7 +255,7 @@ export default class App extends React.Component {
         }
     }
 
-    visualizeShortestPath(shortestPath, speedMultiplier) {
+    visualizeShortestPath(shortestPath) {
         for (let i = 0; i < shortestPath.length; i++) {
             if (shortestPath[i].isLightWeight)
                 {
@@ -269,7 +269,7 @@ export default class App extends React.Component {
                         `node-${node.row}-${node.column}`
                     ).className = "node node-shortest-path";
                 }
-            }, i * this.state.speed * 10 / speedMultiplier);
+            }, i * this.state.speed * 5);
 
             if (i >= shortestPath.length - 1)
             {
