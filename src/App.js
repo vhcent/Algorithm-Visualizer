@@ -14,6 +14,7 @@ import {dfs} from "./pathAlgorithms/dfs";
 
 //mazeAlgorithms
 import {horizontalMaze} from "./mazeAlgorithms/horizontalMaze.js";
+import {verticalMaze} from "./mazeAlgorithms/verticalMaze.js";
 
 let startRow = 5;
 let startColumn = 10;
@@ -295,6 +296,19 @@ export default class App extends React.Component {
         console.log(walls);
     }
 
+    visualizeVertical() {
+        this.clearWeights();
+        this.clearWalls();
+        this.setState({running: true});
+        this.clearPath();
+        const grid = this.state.grid;
+        const start = grid[startRow][startColumn];
+        const finish = grid[finishRow][finishColumn];
+        
+        let walls = verticalMaze(grid, start, finish)
+        this.visualizeWalls(walls);
+    }
+
     visualizeWalls(walls) {
         for (let i = 0; i < walls.length; i++) {
             setTimeout(() => {
@@ -375,7 +389,7 @@ export default class App extends React.Component {
                             <button
                                 className="dropdown-button"
                                 disabled={this.state.running}
-                                onClick={() => this.visualizeHorizontal()}
+                                onClick={() => this.visualizeVertical()}
                             >
                                 Vertical Maze
                             </button>
