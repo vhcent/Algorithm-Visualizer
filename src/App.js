@@ -282,10 +282,10 @@ export default class App extends React.Component {
     }
 
     visualizeHorizontal() {
+        this.clearWeights();
+        this.clearWalls();
         this.setState({running: true});
         this.clearPath();
-        this.clearWalls();
-        this.clearWeights();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
@@ -298,10 +298,6 @@ export default class App extends React.Component {
     visualizeWalls(walls) {
         const newGrid = this.state.grid;
         for (let i = 0; i < walls.length; i++) {
-            if (walls[i].isWeight)
-                {
-                    continue;
-                }
             setTimeout(() => {
                 const node = walls[i];
                 newGrid[node.row][node.column].isWall = true;
