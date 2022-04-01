@@ -5,12 +5,15 @@ import "./App.css";
 //components
 import Node from "./components/Node";
 
-//algorithms
-import {getShortestPath} from "./algorithms/Helper.js";
-import {dijkstra} from "./algorithms/dijkstra";
-import {astar} from "./algorithms/astar";
-import {bfs} from "./algorithms/bfs";
-import {dfs} from "./algorithms/dfs";
+//pathAlgorithms
+import {getShortestPath} from "./pathAlgorithms/Helper.js";
+import {dijkstra} from "./pathAlgorithms/dijkstra";
+import {astar} from "./pathAlgorithms/astar";
+import {bfs} from "./pathAlgorithms/bfs";
+import {dfs} from "./pathAlgorithms/dfs";
+
+//mazeAlgorithms
+import {horizontalMaze} from "./mazeAlgorithms/horizontalMaze.js";
 
 let startRow = 5;
 let startColumn = 10;
@@ -278,6 +281,40 @@ export default class App extends React.Component {
         }
     }
 
+    visualizeHorizontal() {
+        this.setState({running: true});
+        this.clearPath();
+        this.clearWalls();
+        this.clearWeights();
+        const grid = this.state.grid;
+        const start = grid[startRow][startColumn];
+        const finish = grid[finishRow][finishColumn];
+        
+        let walls = horizontalMaze(grid, start, finish)
+        this.visualizeShortestPath(walls);
+    }
+
+    visualizeWalls(walls) {
+        for (let i = 0; i < walls.length; i++) {
+            let row = walls[i][0];
+            let col = walls[i][1];
+            setTimeout(() => {
+                let node = walls[i];
+                if (i !== 0 && i !== walls.length - 1) {
+                    document.getElementById(
+                        `node-${row}-${col}`
+                    ).className = "node wall";
+                    this.state.grid[row][col].isWall = true;
+                }
+            }, i * this.state.speed);
+
+            if (i >= walls.length - 1)
+            {
+                this.setState({running: false})
+            }
+        }
+    }
+
     render() {
         const grid = this.state.grid;
 
@@ -326,14 +363,21 @@ export default class App extends React.Component {
                                 className="dropdown-button"
                                 onClick={() => {}}
                             >
-                                Recursive Maze
+                                Recursive Division
                             </button>
                             <button
                                 className="dropdown-button"
                                 disabled={this.state.running}
-                                onClick={() => {}}
+                                onClick={() => this.visualizeHorizontal()}
                             >
-                                A*
+                                Horizontal Maze
+                            </button>
+                            <button
+                                className="dropdown-button"
+                                disabled={this.state.running}
+                                onClick={() => this.visualizeHorizontal()}
+                            >
+                                Vertical Maze
                             </button>
                         </div>
                     </div>
