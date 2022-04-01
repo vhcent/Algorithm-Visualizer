@@ -9,7 +9,7 @@ export function horizontalMaze(grid, start, finish) {
 }
 
 function getWalls(rows, cols, start, finish, grid) {
-    if(rows < 1) return;
+    if(rows < 2) return;
     let rand = Math.floor(Math.random());
     for(let rowIndex of rows) {
         if (rowIndex % 2 === 0 && rand < 0.5 ) {

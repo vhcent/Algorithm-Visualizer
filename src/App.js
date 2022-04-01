@@ -296,16 +296,15 @@ export default class App extends React.Component {
     }
 
     visualizeWalls(walls) {
-        const newGrid = this.state.grid;
         for (let i = 0; i < walls.length; i++) {
             setTimeout(() => {
                 const node = walls[i];
-                newGrid[node.row][node.column].isWall = true;
+
                 if (i !== 0 && i !== walls.length - 1) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
                     ).className = "node wall";
-                    // node.isWall = true;
+                    node.isWall = true;
                 }
             }, i * this.state.speed);
 
@@ -314,7 +313,6 @@ export default class App extends React.Component {
                 this.setState({running: false})
             }
         }
-        this.setState({ grid: newGrid });
     }
 
     render() {
