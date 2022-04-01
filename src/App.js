@@ -291,20 +291,25 @@ export default class App extends React.Component {
         const finish = grid[finishRow][finishColumn];
         
         let walls = horizontalMaze(grid, start, finish)
-        this.visualizeShortestPath(walls);
+        this.visualizeWalls(walls);
+        console.log(walls);
     }
 
     visualizeWalls(walls) {
+        const newGrid = this.state.grid;
         for (let i = 0; i < walls.length; i++) {
-            let row = walls[i][0];
-            let col = walls[i][1];
+            if (walls[i].isWeight)
+                {
+                    continue;
+                }
             setTimeout(() => {
-                let node = walls[i];
+                const node = walls[i];
+                newGrid[node.row][node.column].isWall = true;
                 if (i !== 0 && i !== walls.length - 1) {
                     document.getElementById(
-                        `node-${row}-${col}`
+                        `node-${node.row}-${node.column}`
                     ).className = "node wall";
-                    this.state.grid[row][col].isWall = true;
+                    // node.isWall = true;
                 }
             }, i * this.state.speed);
 
@@ -313,6 +318,7 @@ export default class App extends React.Component {
                 this.setState({running: false})
             }
         }
+        this.setState({ grid: newGrid });
     }
 
     render() {

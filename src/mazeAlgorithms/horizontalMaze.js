@@ -4,14 +4,20 @@ export function horizontalMaze(grid, start, finish) {
     let cols = range(grid[0].length);
     let rows = range(grid.length);
 
-    getWalls(rows, cols, start, finish, grid)
+    getWalls(rows, cols, start, finish, grid);
     return walls;
 }
 
 function getWalls(rows, cols, start, finish, grid) {
-    let rand = Math.random();
+    if(rows < 2) return;
+    let rand = Math.floor(Math.random() * 2);
     for(let rowIndex of rows) {
-        if(rowIndex % 2 == 0 && rand < 0.5) {
+        if(rowIndex % 2 == 0 && rand == 0 ) {
+            console.log("wall pushed");
+            pushWall(rowIndex, cols, start, finish, grid);
+        }
+        if(rowIndex % 2 !== 0 && rand == 1 ) {
+            console.log("wall pushed");
             pushWall(rowIndex, cols, start, finish, grid);
         }
     }
@@ -26,7 +32,10 @@ function pushWall(rowIndex, cols, start, finish, grid) {
             isEndpoint = true;
             continue;
         }
-        initialWalls.push(grid[rowIndex][colIndex]);
+        else {
+            initialWalls.push(grid[rowIndex][colIndex]);
+        }
+        
     }
     if (!isEndpoint) {
         initialWalls.splice(Math.floor(Math.random() * initialWalls.length), 1)
