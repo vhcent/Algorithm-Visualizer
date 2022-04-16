@@ -384,7 +384,7 @@ export default class App extends React.Component {
                             <button
                                 disabled={this.state.running}
                                 className="dropdown-button"
-                                onClick={() => this.visualizeRecursiveDivision()}
+                                // onClick={() => this.visualizeRecursiveDivision()}
                             >
                                 Recursive Division
                             </button>
