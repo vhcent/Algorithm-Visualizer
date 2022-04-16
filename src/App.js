@@ -15,6 +15,7 @@ import { dfs } from "./pathAlgorithms/dfs";
 //mazeAlgorithms
 import { horizontalMaze } from "./mazeAlgorithms/horizontalMaze.js";
 import { verticalMaze } from "./mazeAlgorithms/verticalMaze.js";
+import { recursiveDivision } from "./mazeAlgorithms/recursiveDivision.js"
 
 let startRow = 5;
 let startColumn = 10;
@@ -304,17 +305,30 @@ export default class App extends React.Component {
         this.visualizeWalls(walls);
     }
 
+    visualizeRecursiveDivision() {
+        this.clearWeights();
+        this.clearWalls();
+        this.setState({ running: true });
+        this.clearPath();
+        const grid = this.state.grid;
+        const start = grid[startRow][startColumn];
+        const finish = grid[finishRow][finishColumn];
+
+        let walls = recursiveDivision(grid, start, finish);
+        this.visualizeWalls(walls);
+    }
+
     visualizeWalls(walls) {
         for (let i = 0; i < walls.length; i++) {
             setTimeout(() => {
                 const node = walls[i];
 
-                if (i !== 0 && i !== walls.length - 1) {
+                // if (i !== 0 && i !== walls.length - 1) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
                     ).className = "node wall";
                     node.isWall = true;
-                }
+                // }
                 if (i >= walls.length - 1) {
                     this.setState({ running: false });
                 }
@@ -370,7 +384,7 @@ export default class App extends React.Component {
                             <button
                                 disabled={this.state.running}
                                 className="dropdown-button"
-                                onClick={() => { }}
+                                onClick={() => this.visualizeRecursiveDivision()}
                             >
                                 Recursive Division
                             </button>

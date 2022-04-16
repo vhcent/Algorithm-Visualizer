@@ -6,9 +6,7 @@ export function horizontalMaze(grid, start, finish) {
     let rows = range(grid.length);
     // console.log(cols);
 
-    walls.push(grid[0][0]);
     getWalls(rows, cols, start, finish, grid);
-    walls.push(grid[17][49]);
     return walls;
 }
 

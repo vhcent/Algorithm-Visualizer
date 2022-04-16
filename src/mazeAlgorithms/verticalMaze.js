@@ -3,9 +3,7 @@ export function verticalMaze(grid, start, finish) {
     walls = [];
     let cols = range(grid[0].length);
     let rows = range(grid.length);
-    walls.push(grid[0][0]);
     getWalls(rows, cols, start, finish, grid);
-    walls.push(grid[17][49]);
     return walls;
 }
 
