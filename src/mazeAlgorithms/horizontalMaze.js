@@ -1,23 +1,28 @@
 let walls = [];
 export function horizontalMaze(grid, start, finish) {
-    console.log("horizontal maze called")
+    walls = [];
+    // console.log("horizontal maze called")
     let cols = range(grid[0].length);
     let rows = range(grid.length);
+    // console.log(cols);
 
+    walls.push(grid[0][0]);
     getWalls(rows, cols, start, finish, grid);
+    walls.push(grid[17][49]);
     return walls;
 }
 
 function getWalls(rows, cols, start, finish, grid) {
     if(rows < 2) return;
-    let rand = Math.floor(Math.random());
+    let rand = Math.random();
+    console.log("rand ", rand);
     for(let rowIndex of rows) {
         if (rowIndex % 2 === 0 && rand < 0.5 ) {
-            console.log("wall pushed");
+            
             pushWall(rowIndex, cols, start, finish, grid);
         }
-        if (rowIndex % 2 !== 0 && rand >= 0.1 ) {
-            console.log("wall pushed");
+        if (rowIndex % 2 !== 0 && rand >= 0.5 ) {
+            
             pushWall(rowIndex, cols, start, finish, grid);
         }
     }
@@ -30,9 +35,11 @@ function pushWall(rowIndex, cols, start, finish, grid) {
     for (let colIndex of cols) {
         if(rowIndex === start.row & colIndex === start.column || rowIndex === finish.row & colIndex === finish.column) {
             isEndpoint = true;
+            console.log("No Wall: ", rowIndex, colIndex);
             continue;
         }
         else {
+            // console.log("wall pushed at ", colIndex, " ", rowIndex);
             initialWalls.push(grid[rowIndex][colIndex]);
         }
         
@@ -40,7 +47,6 @@ function pushWall(rowIndex, cols, start, finish, grid) {
     if (!isEndpoint) {
         initialWalls.splice(Math.floor(Math.random() * initialWalls.length), 1)
     }
-
     for (let node of initialWalls) {
         walls.push(node);
     }

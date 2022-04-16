@@ -1,21 +1,23 @@
 let walls = [];
 export function verticalMaze(grid, start, finish) {
+    walls = [];
     let cols = range(grid[0].length);
     let rows = range(grid.length);
-
+    walls.push(grid[0][0]);
     getWalls(rows, cols, start, finish, grid);
+    walls.push(grid[17][49]);
     return walls;
 }
 
 function getWalls(rows, cols, start, finish, grid) {
     if(cols < 2) return;
-    let rand = Math.floor(Math.random());
+    let rand = Math.random();
     for(let colIndex of cols) {
         if (colIndex % 2 === 0 && rand < 0.5 ) {
             //console.log("wall pushed");
             pushWall(colIndex, rows, start, finish, grid);
         }
-        if (colIndex % 2 !== 0 && rand >= 0.1 ) {
+        if (colIndex % 2 !== 0 && rand >= 0.5 ) {
             //console.log("wall pushed");
             pushWall(colIndex, rows, start, finish, grid);
         }

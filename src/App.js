@@ -6,15 +6,15 @@ import "./App.css";
 import Node from "./components/Node";
 
 //pathAlgorithms
-import {getShortestPath} from "./pathAlgorithms/Helper.js";
-import {dijkstra} from "./pathAlgorithms/dijkstra";
-import {astar} from "./pathAlgorithms/astar";
-import {bfs} from "./pathAlgorithms/bfs";
-import {dfs} from "./pathAlgorithms/dfs";
+import { getShortestPath } from "./pathAlgorithms/Helper.js";
+import { dijkstra } from "./pathAlgorithms/dijkstra";
+import { astar } from "./pathAlgorithms/astar";
+import { bfs } from "./pathAlgorithms/bfs";
+import { dfs } from "./pathAlgorithms/dfs";
 
 //mazeAlgorithms
-import {horizontalMaze} from "./mazeAlgorithms/horizontalMaze.js";
-import {verticalMaze} from "./mazeAlgorithms/verticalMaze.js";
+import { horizontalMaze } from "./mazeAlgorithms/horizontalMaze.js";
+import { verticalMaze } from "./mazeAlgorithms/verticalMaze.js";
 
 let startRow = 5;
 let startColumn = 10;
@@ -67,10 +67,10 @@ export default class App extends React.Component {
     }
 
     setWall() {
-        this.setState({nodeType: "Wall"})
+        this.setState({ nodeType: "Wall" })
     }
     setWeight() {
-        this.setState({nodeType: "Weight"})
+        this.setState({ nodeType: "Weight" })
     }
 
     clearWalls() {
@@ -103,7 +103,7 @@ export default class App extends React.Component {
                 node.hcost = Infinity;
                 node.distance = Infinity;
                 node.previousNode = null;
-                if(!node.isWeight && !node.isWall && !node.isStart && !node.isFinish) {
+                if (!node.isWeight && !node.isWall && !node.isStart && !node.isFinish) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
                     ).className = `node`;
@@ -119,11 +119,11 @@ export default class App extends React.Component {
         this.clearPath();
         const newGrid = this.state.grid.slice();
         for (let row of newGrid) {
-            for(let node of row) {
-                if(node.isStart) {
+            for (let node of row) {
+                if (node.isStart) {
                     node.isStart = false;
                 }
-                if(node.isFinish) {
+                if (node.isFinish) {
                     node.isFinish = false;
                 }
             }
@@ -132,7 +132,7 @@ export default class App extends React.Component {
         startRow = 5;
         startColumn = 10;
         finishRow = 10;
-        finishColumn = 40; 
+        finishColumn = 40;
 
         newGrid[startRow][startColumn].isStart = true;
         newGrid[finishRow][finishColumn].isFinish = true;
@@ -149,21 +149,19 @@ export default class App extends React.Component {
         } else if (updatedGrid[row][column].isFinish) {
             this.setState({ moveFinish: true });
         } else {
-            if(this.state.nodeType === "Wall")
-            {
+            if (this.state.nodeType === "Wall") {
                 updatedGrid[row][column].isWeight = false;
                 updatedGrid[row][column].isWall =
-                !this.state.grid[row][column].isWall;
-                
+                    !this.state.grid[row][column].isWall;
+
             }
-            else if(this.state.nodeType === "Weight")
-            {
+            else if (this.state.nodeType === "Weight") {
                 updatedGrid[row][column].isWall = false;
 
                 updatedGrid[row][column].isWeight =
-                !this.state.grid[row][column].isWeight;
+                    !this.state.grid[row][column].isWeight;
             }
-            
+
         }
         this.setState({ grid: updatedGrid, mousePressed: true });
     }
@@ -186,11 +184,10 @@ export default class App extends React.Component {
                 updatedGrid[row][column].isWall =
                     !this.state.grid[row][column].isWall;
             }
-            else if (this.state.nodeType === "Weight")
-            {
+            else if (this.state.nodeType === "Weight") {
                 updatedGrid[row][column].isWall = false;
                 updatedGrid[row][column].isWeight =
-                !this.state.grid[row][column].isWeight;
+                    !this.state.grid[row][column].isWeight;
             }
             this.setState({ grid: updatedGrid, mousePressed: true });
         }
@@ -201,7 +198,7 @@ export default class App extends React.Component {
     }
 
     visualizeDijkstra() {
-        this.setState({running: true});
+        this.setState({ running: true });
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
@@ -210,7 +207,7 @@ export default class App extends React.Component {
     }
 
     visualizeAStar() {
-        this.setState({running: true});
+        this.setState({ running: true });
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
@@ -219,7 +216,7 @@ export default class App extends React.Component {
     }
     visualizeBFS() {
         this.clearWeights();
-        this.setState({running: true});
+        this.setState({ running: true });
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
@@ -229,7 +226,7 @@ export default class App extends React.Component {
 
     visualizeDFS() {
         this.clearWeights();
-        this.setState({running: true});
+        this.setState({ running: true });
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
@@ -241,15 +238,14 @@ export default class App extends React.Component {
         const grid = this.state.grid;
         const finish = grid[finishRow][finishColumn];
         for (let i = 0; i < visitedNodesInOrder.length; i++) {
-            if (visitedNodesInOrder[i].isWeight)
-                {
-                    continue;
-                }
+            if (visitedNodesInOrder[i].isWeight) {
+                continue;
+            }
             setTimeout(() => {
                 const node = visitedNodesInOrder[i];
                 if (i === visitedNodesInOrder.length - 1)
                     this.visualizeShortestPath(getShortestPath(finish));
-                
+
                 if (i !== 0 && i !== visitedNodesInOrder.length - 1) {
                     document.getElementById(
                         `node-${node.row}-${node.column}`
@@ -261,10 +257,9 @@ export default class App extends React.Component {
 
     visualizeShortestPath(shortestPath) {
         for (let i = 0; i < shortestPath.length; i++) {
-            if (shortestPath[i].isWeight)
-                {
-                    continue;
-                }
+            if (shortestPath[i].isWeight) {
+                continue;
+            }
             setTimeout(() => {
                 const node = shortestPath[i];
 
@@ -273,24 +268,24 @@ export default class App extends React.Component {
                         `node-${node.row}-${node.column}`
                     ).className = "node node-shortest-path";
                 }
+                if (i >= shortestPath.length - 1) {
+                    this.setState({ running: false })
+                }
             }, i * this.state.speed * 5);
 
-            if (i >= shortestPath.length - 1)
-            {
-                this.setState({running: false})
-            }
+            
         }
     }
 
     visualizeHorizontal() {
         this.clearWeights();
         this.clearWalls();
-        this.setState({running: true});
+        this.setState({ running: true });
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
-        
+
         let walls = horizontalMaze(grid, start, finish)
         this.visualizeWalls(walls);
         console.log(walls);
@@ -299,12 +294,12 @@ export default class App extends React.Component {
     visualizeVertical() {
         this.clearWeights();
         this.clearWalls();
-        this.setState({running: true});
+        this.setState({ running: true });
         this.clearPath();
         const grid = this.state.grid;
         const start = grid[startRow][startColumn];
         const finish = grid[finishRow][finishColumn];
-        
+
         let walls = verticalMaze(grid, start, finish)
         this.visualizeWalls(walls);
     }
@@ -320,13 +315,13 @@ export default class App extends React.Component {
                     ).className = "node wall";
                     node.isWall = true;
                 }
+                if (i >= walls.length - 1) {
+                    this.setState({ running: false });
+                }
             }, i * this.state.speed);
 
-            if (i >= walls.length - 1)
-            {
-                this.setState({running: false})
-            }
         }
+
     }
 
     render() {
@@ -375,7 +370,7 @@ export default class App extends React.Component {
                             <button
                                 disabled={this.state.running}
                                 className="dropdown-button"
-                                onClick={() => {}}
+                                onClick={() => { }}
                             >
                                 Recursive Division
                             </button>
