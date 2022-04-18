@@ -5,22 +5,54 @@ export function recursiveDivision(grid, start, finish) {
     pushOuterWalls(grid);
     let minRow = 1;
     let minCol = 1;
-    let maxRow = grid.length - 2;
+    let maxRow = grid.length - 1;
     let maxCol = grid[0].length - 2;
-    pushRecursiveWalls(minRow, maxRow, minCol, maxCol, grid, start, finish)
+    pushRecursiveWalls(minRow, maxRow, minCol, maxCol, grid, start, finish);
+    console.log("walls", walls);
     return walls;
 }
 
 function pushRecursiveWalls(minRow, maxRow, minCol, maxCol, grid, start, finish) {
-    if (maxRow - minRow < 2 || maxCol - minCol < 2) return;
+    if (maxRow - minRow <= 2 || maxCol - minCol <= 2) return;
     let direction;
     let rand;
     if (maxRow - minRow > maxCol - minCol) {
-        direction = 0;
+        direction = 0; //make horizontal wall
+        rand = Math.floor(Math.random() * (maxCol-minCol)) + minCol;
+        if(rand % 2 == 1) rand++;
+        let iRow = Math.floor((maxRow + minRow) / 4) * 2 + 1;
+        // if(iRow === maxRow-1) iRow--;
+        // else iRow++;
+        for(let iCol = minCol; iCol < maxCol; iCol++) {
+            if(iCol === rand) continue;
+            if(iRow === start.row & iCol === start.column || iRow === finish.row & iCol === finish.column) {
+                continue;
+            }
+            console.log("iRow", iRow, "iCol", iCol);
+            walls.push(grid[iRow][iCol]);
+        }
+        pushRecursiveWalls(minRow, iRow, minCol, maxCol, grid, start, finish);
+        pushRecursiveWalls(iRow + 1, maxRow, minCol, maxCol, grid, start, finish);
+
     }
     else {
         direction = 1;
+        rand = Math.floor(Math.random() * (maxRow - minRow)) + minRow;
+        if(rand % 2 == 1) rand++;
+        let iCol = Math.floor((maxCol + minCol) / 4) * 2 + 1;
+        // if(iCol === maxCol-1) iCol--;
+        // else iCol++;
+        for (let iRow = minRow; iRow < maxRow; iRow++) {
+            if (iRow === rand) continue;
+            if(iRow === start.row & iCol === start.column || iRow === finish.row & iCol === finish.column) {
+                continue;
+            }
+            walls.push(grid[iRow][iCol]);
+        }
+        pushRecursiveWalls(minRow, maxRow, minCol, iCol, grid, start, finish);
+        pushRecursiveWalls(minRow, maxRow, iCol + 1, maxCol, grid, start, finish);
     }
+
 }
 
 function pushOuterWalls(grid) {
