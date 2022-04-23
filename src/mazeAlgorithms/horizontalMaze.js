@@ -19,7 +19,7 @@ function getWalls(rows, cols, start, finish, grid) {
             
             pushWall(rowIndex, cols, start, finish, grid);
         }
-        if (rowIndex % 2 !== 0 && rand >= 0.5 ) {
+        if (rowIndex % 2 === 1 && rand >= 0.5 ) {
             
             pushWall(rowIndex, cols, start, finish, grid);
         }

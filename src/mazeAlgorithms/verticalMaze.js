@@ -15,7 +15,7 @@ function getWalls(rows, cols, start, finish, grid) {
             //console.log("wall pushed");
             pushWall(colIndex, rows, start, finish, grid);
         }
-        if (colIndex % 2 !== 0 && rand >= 0.5 ) {
+        if (colIndex % 2 === 1 && rand >= 0.5 ) {
             //console.log("wall pushed");
             pushWall(colIndex, rows, start, finish, grid);
         }
@@ -27,7 +27,7 @@ function pushWall(colIndex, rows, start, finish, grid) {
     let initialWalls = [];
     let isEndpoint = false;
     for (let rowIndex of rows) {
-        if(colIndex === start.row & rowIndex === start.column || rowIndex === finish.row & colIndex === finish.column) {
+        if(rowIndex === start.row & colIndex === start.column || rowIndex === finish.row & colIndex === finish.column) {
             isEndpoint = true;
             continue;
         }
