@@ -56,15 +56,8 @@ html {
     position: relative;
     display: inline-block;
     text-align: center;
-<<<<<<< HEAD
-    /* width: 18vw; */
-    padding-left: 1vw;
-    padding-right: 1vw;
-    height: 5vh;
-=======
     width: 18vw;
     border: none;
->>>>>>> parent of d48eea6 (Added support for window resizing)
     background: none;
     color: lightgreen;
     margin-top: 4vh;
@@ -75,11 +68,6 @@ html {
     font-size: 2em;
     transition-duration: 0.7s;
     transition-property: all;
-<<<<<<< HEAD
-    transition-timing-function: ease-in-out;
-    border: none;
-=======
->>>>>>> parent of d48eea6 (Added support for window resizing)
   }
   
   .dropdown:hover {
