@@ -15,10 +15,8 @@
 
 
 .node {
-    width: calc(100% / 34);
-    min-width: 30px;
+    width: calc(118vw / 59);
     height: calc(120vh / 29);
-    min-height: 30px;
     background-color: lightgray;
     border: 1px solid black;
     display: inline-block;
