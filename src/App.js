@@ -17,10 +17,10 @@ import { horizontalMaze } from "./mazeAlgorithms/horizontalMaze.js";
 import { verticalMaze } from "./mazeAlgorithms/verticalMaze.js";
 import { recursiveDivision } from "./mazeAlgorithms/recursiveDivision.js"
 
-let startRow = 5;
-let startColumn = 10;
-let finishRow = 10;
-let finishColumn = 40;
+let startRow = 0;
+let startColumn = 0;
+let finishRow = Math.floor(window.innerHeight / 55) - 1;
+let finishColumn = Math.floor(window.innerWidth / 33) - 1;
 
 export default class App extends React.Component {
     constructor(props) {
@@ -34,14 +34,23 @@ export default class App extends React.Component {
             moveFinish: false,
             nodeType: "Wall", // Can be "Wall" or "Weight"
             running: false,
+            numRows: Math.floor(window.innerHeight / 55),
+            numColumns: Math.floor(window.innerWidth / 33),
         };
     }
 
     componentDidMount() {
+        window.addEventListener("resize", this.updateDimensions);
         const grid = [];
-        for (let row = 0; row < 18; row++) {
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        this.setState({
+            numRows: h / 55,
+            numColumns: w / 33
+        });
+        for (let row = 0; row < this.state.numRows; row++) {
             const currentRow = [];
-            for (let column = 0; column < 50; column++) {
+            for (let column = 0; column < this.state.numColumns; column++) {
                 const currentNode = {
                     column,
                     row,
@@ -66,6 +75,50 @@ export default class App extends React.Component {
         }
         this.setState({ grid: grid });
     }
+
+    updateDimensions = async () => {
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        await this.setState({
+            numRows: h / 55,
+            numColumns: w / 33
+        });
+        this.resetGrid();
+        this.resetBoard();
+    }
+
+    resetGrid = async () => {
+        finishRow = Math.floor(window.innerHeight / 55) - 1;
+        finishColumn = Math.floor(window.innerWidth / 33) - 1;
+        const grid = [];
+        for (let row = 0; row < this.state.numRows; row++) {
+            const currentRow = [];
+            for (let column = 0; column < this.state.numColumns; column++) {
+                const currentNode = {
+                    column,
+                    row,
+                    isStart: row === startRow && column === startColumn,
+                    isFinish: row === finishRow && column === finishColumn,
+                    distance: Infinity,
+                    isVisited: false,
+                    isWall: false,
+                    isWeight: false,
+                    previousNode: null,
+                    mouseDown: false,
+                    mouseEnter: false,
+                    mouseUp: false,
+                    //astar
+                    fcost: Infinity, //distance from startNode to node to endNode
+                    gcost: Infinity, //distance from startNode
+                    hcost: Infinity, //distance from End Node
+                };
+                currentRow.push(currentNode);
+            }
+            grid.push(currentRow);
+        }
+        this.setState({ grid: grid });
+    }
+
 
     setWall() {
         this.setState({ nodeType: "Wall" })
@@ -129,11 +182,11 @@ export default class App extends React.Component {
                 }
             }
         }
-
-        startRow = 5;
-        startColumn = 10;
-        finishRow = 10;
-        finishColumn = 40;
+        console.log("resetBoard");
+        startRow = 0;
+        startColumn = 0;
+        finishRow = Math.floor(window.innerHeight / 55) - 1;
+        finishColumn = Math.floor(window.innerWidth / 33) - 1;
 
         newGrid[startRow][startColumn].isStart = true;
         newGrid[finishRow][finishColumn].isFinish = true;
@@ -274,7 +327,7 @@ export default class App extends React.Component {
                 }
             }, i * this.state.speed * 5);
 
-            
+
         }
     }
 
@@ -324,10 +377,10 @@ export default class App extends React.Component {
                 const node = walls[i];
 
                 // if (i !== 0 && i !== walls.length - 1) {
-                    document.getElementById(
-                        `node-${node.row}-${node.column}`
-                    ).className = "node wall";
-                    node.isWall = true;
+                document.getElementById(
+                    `node-${node.row}-${node.column}`
+                ).className = "node wall";
+                node.isWall = true;
                 // }
                 if (i >= walls.length - 1) {
                     this.setState({ running: false });
