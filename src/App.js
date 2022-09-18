@@ -17,10 +17,17 @@ import { horizontalMaze } from "./mazeAlgorithms/horizontalMaze.js";
 import { verticalMaze } from "./mazeAlgorithms/verticalMaze.js";
 import { recursiveDivision } from "./mazeAlgorithms/recursiveDivision.js"
 
+<<<<<<< HEAD
 let startRow = 0;
 let startColumn = 0;
 let finishRow = Math.floor(window.innerHeight / 52) - 1;
 let finishColumn = Math.floor(window.innerWidth / 33) - 1;
+=======
+let startRow = 5;
+let startColumn = 10;
+let finishRow = 10;
+let finishColumn = 40;
+>>>>>>> parent of d48eea6 (Added support for window resizing)
 
 export default class App extends React.Component {
     constructor(props) {
@@ -34,14 +41,17 @@ export default class App extends React.Component {
             moveFinish: false,
             nodeType: "Wall", // Can be "Wall" or "Weight"
             running: false,
+<<<<<<< HEAD
             numRows: Math.floor(window.innerHeight / 52),
             numColumns: Math.floor(window.innerWidth / 33),
+=======
+>>>>>>> parent of d48eea6 (Added support for window resizing)
         };
     }
 
     componentDidMount() {
-        window.addEventListener("resize", this.updateDimensions);
         const grid = [];
+<<<<<<< HEAD
         let w = window.innerWidth;
         let h = window.innerHeight;
         this.setState({
@@ -49,8 +59,11 @@ export default class App extends React.Component {
             numColumns: w / 33
         });
         for (let row = 0; row < this.state.numRows; row++) {
+=======
+        for (let row = 0; row < 18; row++) {
+>>>>>>> parent of d48eea6 (Added support for window resizing)
             const currentRow = [];
-            for (let column = 0; column < this.state.numColumns; column++) {
+            for (let column = 0; column < 50; column++) {
                 const currentNode = {
                     column,
                     row,
@@ -76,6 +89,7 @@ export default class App extends React.Component {
         this.setState({ grid: grid });
     }
 
+<<<<<<< HEAD
     updateDimensions = async () => {
         let w = window.innerWidth;
         let h = window.innerHeight;
@@ -120,6 +134,8 @@ export default class App extends React.Component {
     }
 
 
+=======
+>>>>>>> parent of d48eea6 (Added support for window resizing)
     setWall() {
         this.setState({ nodeType: "Wall" })
     }
@@ -182,11 +198,19 @@ export default class App extends React.Component {
                 }
             }
         }
+<<<<<<< HEAD
         console.log("resetBoard");
         startRow = 0;
         startColumn = 0;
         finishRow = Math.floor(window.innerHeight / 52) - 1;
         finishColumn = Math.floor(window.innerWidth / 33) - 1;
+=======
+
+        startRow = 5;
+        startColumn = 10;
+        finishRow = 10;
+        finishColumn = 40;
+>>>>>>> parent of d48eea6 (Added support for window resizing)
 
         newGrid[startRow][startColumn].isStart = true;
         newGrid[finishRow][finishColumn].isFinish = true;
@@ -327,7 +351,7 @@ export default class App extends React.Component {
                 }
             }, i * this.state.speed * 5);
 
-
+            
         }
     }
 
@@ -377,10 +401,10 @@ export default class App extends React.Component {
                 const node = walls[i];
 
                 // if (i !== 0 && i !== walls.length - 1) {
-                document.getElementById(
-                    `node-${node.row}-${node.column}`
-                ).className = "node wall";
-                node.isWall = true;
+                    document.getElementById(
+                        `node-${node.row}-${node.column}`
+                    ).className = "node wall";
+                    node.isWall = true;
                 // }
                 if (i >= walls.length - 1) {
                     this.setState({ running: false });
