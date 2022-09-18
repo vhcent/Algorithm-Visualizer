@@ -40,7 +40,7 @@ html {
   
   .title {
     text-align: center;
-    font-size: 4vw;
+    font-size: 2.5vw;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: white;
     user-select: none;
@@ -64,7 +64,6 @@ html {
     padding-left: 1vw;
     padding-right: 1vw;
     height: 5vh;
-    border: none;
     background: none;
     color: lightgreen;
     margin-top: 4vh;
@@ -74,22 +73,16 @@ html {
     transition-duration: 0.7s;
     transition-property: all;
     transition-timing-function: ease-in-out;
-    border-radius: 10px;
-    border: 2px solid lightgreen;
-    border-style: outset;
+    border: none;
   }
   
   .dropdown:hover {
     background-color: lightcoral;
     transition-duration: 0.4s;
-    border-radius: 10px;
   }
   
   .dropdown-content {
     display: none;
-    /* flex-direction: row;
-    justify-content: space-around;
-    align-items: center; */
     position: absolute;
     margin-top: 10vh;
     background-color: transparent;
@@ -139,7 +132,7 @@ html {
     font-size: 1.3vw;
     outline: 'none';
     border-radius: 10px;
-    border:none;
+    border: none;
     margin-top:0.5vw;
     padding-top: 0.3vw;
     padding-bottom: 0.3vw;

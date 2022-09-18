@@ -19,7 +19,7 @@ import { recursiveDivision } from "./mazeAlgorithms/recursiveDivision.js"
 
 let startRow = 0;
 let startColumn = 0;
-let finishRow = Math.floor(window.innerHeight / 55) - 1;
+let finishRow = Math.floor(window.innerHeight / 52) - 1;
 let finishColumn = Math.floor(window.innerWidth / 33) - 1;
 
 export default class App extends React.Component {
@@ -34,7 +34,7 @@ export default class App extends React.Component {
             moveFinish: false,
             nodeType: "Wall", // Can be "Wall" or "Weight"
             running: false,
-            numRows: Math.floor(window.innerHeight / 55),
+            numRows: Math.floor(window.innerHeight / 52),
             numColumns: Math.floor(window.innerWidth / 33),
         };
     }
@@ -45,7 +45,7 @@ export default class App extends React.Component {
         let w = window.innerWidth;
         let h = window.innerHeight;
         this.setState({
-            numRows: h / 55,
+            numRows: h / 52,
             numColumns: w / 33
         });
         for (let row = 0; row < this.state.numRows; row++) {
@@ -80,7 +80,7 @@ export default class App extends React.Component {
         let w = window.innerWidth;
         let h = window.innerHeight;
         await this.setState({
-            numRows: h / 55,
+            numRows: h / 52,
             numColumns: w / 33
         });
         this.resetGrid();
@@ -88,7 +88,7 @@ export default class App extends React.Component {
     }
 
     resetGrid = async () => {
-        finishRow = Math.floor(window.innerHeight / 55) - 1;
+        finishRow = Math.floor(window.innerHeight / 52) - 1;
         finishColumn = Math.floor(window.innerWidth / 33) - 1;
         const grid = [];
         for (let row = 0; row < this.state.numRows; row++) {
@@ -185,7 +185,7 @@ export default class App extends React.Component {
         console.log("resetBoard");
         startRow = 0;
         startColumn = 0;
-        finishRow = Math.floor(window.innerHeight / 55) - 1;
+        finishRow = Math.floor(window.innerHeight / 52) - 1;
         finishColumn = Math.floor(window.innerWidth / 33) - 1;
 
         newGrid[startRow][startColumn].isStart = true;
@@ -473,7 +473,7 @@ export default class App extends React.Component {
                                 className="dropdown-button"
                                 disabled={this.state.running}
                                 onClick={() => {
-                                    this.setState({ speed: 50 });
+                                    this.setState({ speed: 52 });
                                 }}
                             >
                                 Medium
