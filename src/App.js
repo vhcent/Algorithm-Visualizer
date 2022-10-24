@@ -67,6 +67,7 @@ export default class App extends React.Component {
         this.setState({ grid: grid });
     }
 
+
     setWall() {
         this.setState({ nodeType: "Wall" })
     }
@@ -420,7 +421,7 @@ export default class App extends React.Component {
                                 className="dropdown-button"
                                 disabled={this.state.running}
                                 onClick={() => {
-                                    this.setState({ speed: 50 });
+                                    this.setState({ speed: 52 });
                                 }}
                             >
                                 Medium

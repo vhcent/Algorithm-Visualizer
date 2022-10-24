@@ -6,13 +6,6 @@
   /* 100% {background-color: aqua; transform:rotate(360deg);} */
 }
 
-/* @keyframes shortestPathAnimation {
-  0% {}
-  50% {background-color: rgb(255, 255, 121)}
-  75% {background-color: rgb(255, 255, 255)}
-  100% {background-color: yellow;}
-} */
-
 
 .node {
     width: calc(118vw / 59);
@@ -74,9 +67,5 @@
 .node-shortest-path {
   background-color: rgb(255, 255, 87);
   transition-duration: 0s;
-  /* animation: shortestPathAnimation; */
-  /* animation-duration: 4s; */
-  /* animation-timing-function: ease-in-out; */
-  /* animation-iteration-count: infinite; */
 }
 
