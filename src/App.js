@@ -67,49 +67,6 @@ export default class App extends React.Component {
         this.setState({ grid: grid });
     }
 
-    updateDimensions = async () => {
-        let w = window.innerWidth;
-        let h = window.innerHeight;
-        await this.setState({
-            numRows: h / 52,
-            numColumns: w / 33
-        });
-        this.resetGrid();
-        this.resetBoard();
-    }
-
-    resetGrid = async () => {
-        finishRow = Math.floor(window.innerHeight / 52) - 1;
-        finishColumn = Math.floor(window.innerWidth / 33) - 1;
-        const grid = [];
-        for (let row = 0; row < this.state.numRows; row++) {
-            const currentRow = [];
-            for (let column = 0; column < this.state.numColumns; column++) {
-                const currentNode = {
-                    column,
-                    row,
-                    isStart: row === startRow && column === startColumn,
-                    isFinish: row === finishRow && column === finishColumn,
-                    distance: Infinity,
-                    isVisited: false,
-                    isWall: false,
-                    isWeight: false,
-                    previousNode: null,
-                    mouseDown: false,
-                    mouseEnter: false,
-                    mouseUp: false,
-                    //astar
-                    fcost: Infinity, //distance from startNode to node to endNode
-                    gcost: Infinity, //distance from startNode
-                    hcost: Infinity, //distance from End Node
-                };
-                currentRow.push(currentNode);
-            }
-            grid.push(currentRow);
-        }
-        this.setState({ grid: grid });
-    }
-
 
     setWall() {
         this.setState({ nodeType: "Wall" })
