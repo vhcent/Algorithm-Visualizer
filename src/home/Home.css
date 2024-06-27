@@ -1,0 +1,115 @@
+/* App.css */
+@import '../variables.css';
+
+.header-bar {
+    height: 10vh;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font-size: 3rem;
+}
+
+.home-page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--primary-color);
+}
+
+.project-title {
+    font-size: 2vw;
+}
+
+.project-links {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.project-link {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    width: 30vw;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #1a237e;
+    text-transform: none;
+}
+
+.project-link:hover {
+    background-color: #e3d9bc;
+    border-color: #0056b3; 
+}
+
+.project-link h2 {
+    font-size: 1.5em;
+    margin-top: 0;
+}
+
+.project-link p {
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+.project-link a {
+    display: block;
+    text-decoration: none;
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.project-link a:hover {
+    background-color: #0056b3;
+}
+
+.project-link a:hover {
+    background-color: #0056b3;
+}
+
+
+.footer-bar {
+    height: 10vh;
+    background-color: var(--secondary-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2vw;
+    padding-right: 2vw;
+    font-size: 1.7rem;
+}
+
+.footer-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+}
+
+.footer-bar a {
+    color: white;
+    text-decoration: underline;
+}
+
+.footer-bar a:hover{
+    color: lightcoral;
+    text-decoration: underline;
+}
