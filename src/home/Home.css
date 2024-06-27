@@ -22,10 +22,11 @@
     justify-content: center;
     height: 100vh;
     background-color: var(--primary-color);
+    font-size: 1rem
 }
 
 .project-title {
-    font-size: 2vw;
+    font-size: 2rem;
 }
 
 .project-links {
